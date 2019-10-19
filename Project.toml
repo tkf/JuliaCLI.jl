@@ -3,6 +3,11 @@ uuid = "4316626a-d797-4ddf-b659-4b2e2fb6c7df"
 authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
 version = "0.1.0"
 
+[deps]
+JSONRPC = "b5c38cc6-3efa-414a-9f29-15efc1e96623"
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+
 [compat]
 julia = "1.2"
 

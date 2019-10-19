@@ -1,0 +1,12 @@
+*.pyc
+.mypy_cache
+.pytest_cache
+/*.egg-info
+/.cache
+/.coverage
+/.eggs
+/.tox
+/MANIFEST
+/build
+/dist
+/doc/build

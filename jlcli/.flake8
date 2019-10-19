@@ -1,0 +1,12 @@
+[flake8]
+ignore = E203, E266, E501, W503, B950
+max-line-length = 88
+max-complexity = 18
+select = B,C,E,F,W,T4,B9
+
+# https://github.com/python/black/blob/master/.flake8
+# https://github.com/python/black#line-length
+
+# Note: line length warnings (E501 and B950) are ignored since black
+# would catch it anyway and there is no good way to ignore wide
+# docstrings: https://gitlab.com/pycqa/flake8/issues/375
