@@ -12,6 +12,10 @@ matrix:
   fast_finish: true
 notifications:
   email: false
+
+# Do not build my PR twice.  Use the build on branch.
+if: NOT (type == pull_request AND head_repo == tkf/JuliaCLI.jl)
+
 after_success:
   - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
   - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder())'
