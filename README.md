@@ -23,6 +23,8 @@ the stable location.)
 $ ln -s ~/.julia/dev/JuliaCLI/jlcli/jlcli.py ~/bin/jlcli
 ```
 
+In the above command, I'm assuming `~/bin` is in `$PATH`.
+
 ## Run CLI backend server
 
 ```console
