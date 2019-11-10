@@ -23,6 +23,17 @@ the stable location.)
 $ ln -s ~/.julia/dev/JuliaCLI/jlcli/jlcli.py ~/bin/jlcli
 ```
 
+## Run CLI backend server
+
+```console
+$ cd ~/.julia/dev/JuliaCLI/scripts
+
+$ ./serve.jl
+```
+
+Use `JULIA_CLI_REVISE=true ./serve.jl` instead if you want to reload
+updates in the CLI worker processes (recommended).
+
 ## Example: instantaneous REPL
 
 ```console
