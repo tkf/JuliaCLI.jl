@@ -1,4 +1,4 @@
 [deps]
-Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 JSONRPC = "b5c38cc6-3efa-414a-9f29-15efc1e96623"
 JuliaCLI = "4316626a-d797-4ddf-b659-4b2e2fb6c7df"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
