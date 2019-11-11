@@ -1,5 +1,6 @@
 # Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
+dist: bionic
 os:
   - linux
   # - osx
@@ -17,6 +18,8 @@ notifications:
 if: NOT (type == pull_request AND head_repo == tkf/JuliaCLI.jl)
 
 before_install:
+  - python3 --version
+  - jlcli/jlcli.py --help
   - unset JULIA_PROJECT
   - julia -e 'using Pkg; pkg"add https://github.com/tkf/Run.jl"'
 install:
