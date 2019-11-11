@@ -23,6 +23,10 @@ workerinitenv = joinpath(@__DIR__, "workerinitenv", "Project.toml")
 workerinitscript = joinpath(@__DIR__, "workerinitenv", "init.jl")
 
 function Worker(spec::WorkerSpec)
+
+    # TODO: don't
+    run(`$(spec.julia) --startup-file=no --project=$workerinitenv -e "using Pkg; Pkg.instantiate()"`)
+
     cmd = initcommand(spec)
     @debug(
         "Launching a worker...",
