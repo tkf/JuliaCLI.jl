@@ -108,6 +108,22 @@ function withworker!(f, pool::WorkerPool)
 
         if isempty(pool.available)
             worker = Worker(pool.spec)
+
+            # When the `worker` exits with an error, try rebooting it.
+            let poolref = WeakRef(pool),
+                process = worker.process
+                @async begin  # this should go into a "nursery"
+                    wait(process)
+                    process.exitcode == 0 && return
+                    local pool = poolref.value
+                    pool === nothing && return
+                    acquiring(pool.semaphore) do
+                        # TODO: don't do this if `length(available) > limit`.
+                        @info "Rebooting a dead worker..."
+                        push!(pool.available, Worker(pool.spec))
+                    end
+                end
+            end
         else
             worker = pop!(pool.available)
         end
