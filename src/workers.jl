@@ -95,6 +95,17 @@ end
 
 function withworker!(f, pool::WorkerPool)
     acquiring(pool.semaphore) do
+        # Remove dead workers (and print some info)
+        let npre = length(pool.available)
+            filter!(pool.available) do worker
+                process_running(worker.process)
+            end
+            local nremoved = npre - length(pool.available)
+            if nremoved > 0
+                @info "$nremoved dead worker(s) removed."
+            end
+        end
+
         if isempty(pool.available)
             worker = Worker(pool.spec)
         else
