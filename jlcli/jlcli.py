@@ -85,6 +85,7 @@ def default_stderr_path():
 
 def compile_request(
     eval,
+    include,
     callmain,
     callany,
     adhoccli,
@@ -99,14 +100,14 @@ def compile_request(
     ignorereturn,
     **rest,
 ):
-    if not (eval or callmain or callany or adhoccli or script):
+    if not (eval or include or callmain or callany or adhoccli or script):
         raise CLIArgumentError(
             "At least one of `--eval`, `--callmain`, `--callany`, `--adhoccli`"
             " and `script` are required."
         )
 
     args = args or []
-    if eval or callmain or adhoccli:
+    if eval or include or callmain or adhoccli:
         if script:
             args.insert(0, script)
     elif callany:
@@ -141,6 +142,15 @@ def compile_request(
             "jsonrpc": "2.0",
             "method": "eval",
             "params": makeparams(code=eval, args=args),
+            "id": 0,
+        }
+    elif include:
+        request = {
+            "jsonrpc": "2.0",
+            "method": "eval",
+            "params": makeparams(
+                code="Base.include(@__MODULE__, popfirst!(ARGS))", args=[include] + args
+            ),
             "id": 0,
         }
     elif callmain:
@@ -264,6 +274,7 @@ def parse_args(args):
         description=__doc__,
         usage=(
             "%(prog)s [options] --eval=CODE [args...]\n"
+            "       %(prog)s [options] --include=FILE [args...]\n"
             "       %(prog)s [options] --callmain=CALLABLE [args...]\n"
             "       %(prog)s [options] --callany=CALLABLE JSON\n"
             "       %(prog)s [options] --adhoccli=CALLABLE -- [args...]\n"
@@ -292,6 +303,15 @@ def parse_args(args):
 
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--eval", metavar="CODE")
+    group.add_argument(
+        "--include",
+        metavar="FILE",
+        help="""
+        Run Julia script FILE.  Note that the namespace is not `Main` unless
+        `--usemain` is given.  Use `--ignorereturn` if the last expression
+        in FILE may not be JSON serializable.
+        """,
+    )
     group.add_argument(
         "--callmain",
         metavar="CALLABLE",
